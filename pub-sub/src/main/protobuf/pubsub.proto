@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "pubsub";
+option java_outer_classname = "PubSubProto";
+
+service PubSubService {
+    rpc Publish (PublishRequest) returns (PublishReply) {}
+    rpc Subscribe (SubscribeRequest) returns (stream SubscribeReply) {}
+}
+
+message PublishRequest {
+    string topic = 1;
+    string message = 2;
+}
+
+message PublishReply {
+    string message = 1;
+}
+
+message SubscribeRequest {
+    string topic = 1;
+}
+
+message SubscribeReply {
+    string message = 1;
+}
