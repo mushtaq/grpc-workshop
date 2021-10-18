@@ -15,22 +15,19 @@ import org.scalatest.wordspec.AnyWordSpec
 
 import scala.concurrent.duration._
 
-class GreeterSpec
-  extends AnyWordSpec
-  with BeforeAndAfterAll
-  with Matchers
-  with ScalaFutures {
+class GreeterSpec extends AnyWordSpec with BeforeAndAfterAll with Matchers with ScalaFutures {
 
   implicit val patience: PatienceConfig = PatienceConfig(scaled(5.seconds), scaled(100.millis))
 
   // important to enable HTTP/2 in server ActorSystem's config
-  val conf = ConfigFactory.parseString("akka.http.server.preview.enable-http2 = on")
+  val conf = ConfigFactory
+    .parseString("akka.http.server.preview.enable-http2 = on")
     .withFallback(ConfigFactory.defaultApplication())
 
   val testKit = ActorTestKit(conf)
 
   val serverSystem: ActorSystem[_] = testKit.system
-  val bound = new GreeterServer(serverSystem).run()
+  val bound                        = new GreeterServer(serverSystem).run()
 
   // make sure server is bound before using client
   bound.futureValue
@@ -40,7 +37,7 @@ class GreeterSpec
   val client =
     GreeterServiceClient(GrpcClientSettings.fromConfig("helloworld.GreeterService"))
 
-  override def afterAll: Unit = {
+  override def afterAll(): Unit = {
     ActorTestKit.shutdown(clientSystem)
     testKit.shutdownTestKit()
   }

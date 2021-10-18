@@ -26,7 +26,7 @@ class PubSubSpec extends AnyWordSpec with BeforeAndAfterAll with Matchers with S
   implicit val clientSystem: ActorSystem[_] = ActorSystem(Behaviors.empty, "GreeterClient")
   val client                                = PubSubServiceClient(GrpcClientSettings.fromConfig("PubSubService"))
 
-  override def afterAll: Unit = {
+  override def afterAll(): Unit = {
     ActorTestKit.shutdown(clientSystem)
     testKit.shutdownTestKit()
   }

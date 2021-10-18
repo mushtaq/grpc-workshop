@@ -7,8 +7,12 @@ option java_outer_classname = "PubSubProto";
 service PubSubService {
     rpc Publish (PublishRequest) returns (PublishReply) {}
     rpc Subscribe (SubscribeRequest) returns (stream SubscribeReply) {}
+    rpc slow (SlowRequest) returns (stream SlowReply) {}
+    rpc fast (FastRequest) returns (stream FastReply) {}
+
 }
 
+////////////////
 message PublishRequest {
     string topic = 1;
     string message = 2;
@@ -23,5 +27,22 @@ message SubscribeRequest {
 }
 
 message SubscribeReply {
+    string message = 1;
+}
+
+////////////
+message SlowRequest {
+    string topic = 1;
+}
+
+message SlowReply {
+    string message = 1;
+}
+
+message FastRequest {
+    string topic = 1;
+}
+
+message FastReply {
     string message = 1;
 }
